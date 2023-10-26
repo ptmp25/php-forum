@@ -25,8 +25,38 @@ if (isset($_GET["id"])) {
             exit();
         }
 
-        // Fetch questions related to the selected topic
-        $questions_query = "SELECT id, title FROM questions WHERE topic_id = :topic_id ORDER BY id DESC";  // Added "ORDER BY id DESC"
+        // Fetch questions related to the selected topic along with the last reply information
+        $questions_query = "
+            SELECT
+                q.id,
+                q.title,
+                u.username AS last_reply_username,
+                r.timestamp AS last_reply_timestamp
+            FROM
+                questions q
+            LEFT JOIN
+                (SELECT
+                    question_id,
+                    MAX(timestamp) AS timestamp
+                FROM
+                    replies
+                GROUP BY
+                    question_id) r
+            ON
+                q.id = r.question_id
+            LEFT JOIN
+                replies lr
+            ON
+                lr.question_id = q.id AND lr.timestamp = r.timestamp
+            LEFT JOIN
+                user u
+            ON
+                u.id = lr.user_id
+            WHERE
+                q.topic_id = :topic_id
+            ORDER BY
+                q.id DESC
+        ";
         $stmt = $pdo->prepare($questions_query);
         $stmt->bindParam(':topic_id', $topic_id);
         $stmt->execute();
@@ -159,6 +189,11 @@ if (isset($_POST["submit"])) {
                     <a href="question.php?id=<?php echo $question['id']; ?>">
                         <?php echo $question['title']; ?>
                     </a>
+                    <?php if ($question['last_reply_username'] && $question['last_reply_timestamp']): ?>
+                        <div>Last Reply by <?php echo $question['last_reply_username']; ?> on <?php echo $question['last_reply_timestamp']; ?></div>
+                    <?php else: ?>
+                        <div>No replies yet.</div>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
