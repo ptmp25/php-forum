@@ -6,11 +6,14 @@ if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
 }
-
+if ($update_stmt->rowCount() === 0) {
+    echo "Update Error: No rows updated for user ID: " . $user_id . ". Please check if this user exists in the database.";
+    exit;
+}
 if (isset($_GET["question_id"])) {
     $question_id = $_GET["question_id"];
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reply_content"]) && $_POST["reply_content"] != '') {
         $reply_content = $_POST["reply_content"];
         $user_id = $_SESSION["user_id"];
 
@@ -22,6 +25,12 @@ if (isset($_GET["question_id"])) {
         $stmt->bindParam(':user_id', $user_id);
 
         if ($stmt->execute()) {
+            // Update the reply_count for the user
+            $update_count_query = "UPDATE user SET reply_count = COALESCE(reply_count, 0) + 1 WHERE id = :user_id";
+            $update_stmt = $pdo->prepare($update_count_query);
+            $update_stmt->bindParam(':user_id', $user_id);
+            $update_stmt->execute();
+
             header("Location: question.php?id=" . $question_id);
             exit();
         } else {
@@ -33,19 +42,3 @@ if (isset($_GET["question_id"])) {
     exit();
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>New Reply</title>
-</head>
-<body>
-    <h1>New Reply</h1>
-    <form method="post">
-        <label for="reply_content">Reply:</label>
-        <textarea name="reply_content" rows="4" required></textarea><br>
-        <input type="submit" name="submit" value="Post Reply">
-    </form>
-    <a href="question.php?id=<?php echo $question_id; ?>">Back to Question</a>
-</body>
-</html>

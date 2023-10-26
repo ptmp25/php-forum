@@ -17,6 +17,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 <head>
+<?php include("header.php")?>
     <title>Forum - Topics</title>
 </head>
 <body>

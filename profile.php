@@ -1,14 +1,14 @@
 <?php
-require('connect.php'); // Include the PDO database connection file
+require('connect.php'); 
 
-// Initialize variables to prevent undefined index warnings
-$username = $email = $reply_count = $topic_count = $registration_date = $profile_pic = "";
+$username = $email = $reply_count = $topic_count = $registration_date = $profile_pic = $question_count = ""; // Initializing all variables
 
 if (isset($_GET['username'])) {
     $username = $_GET['username'];
 
     try {
-        $select_stmt = $pdo->prepare("SELECT username, email, COALESCE(reply_count, 0) AS reply_count, COALESCE(topic_count, 0) AS topic_count, date, COALESCE(profile_pic, 'test.png') AS profile_pic FROM user WHERE username = :username");
+        // Fetch all user details, including reply_count and question_count
+        $select_stmt = $pdo->prepare("SELECT username, email, COALESCE(reply_count, 0) AS reply_count, COALESCE(topic_count, 0) AS topic_count, COALESCE(question_count, 0) AS question_count, date, COALESCE(profile_pic, 'default.png') AS profile_pic FROM user WHERE username = :username");
         $select_stmt->bindParam(':username', $username);
         $select_stmt->execute();
 
@@ -19,57 +19,36 @@ if (isset($_GET['username'])) {
             $profile_pic = $row['profile_pic'];
             $reply_count = $row['reply_count'];
             $topic_count = $row['topic_count'];
+            $question_count = $row['question_count']; // Ensure this line exists
         } else {
             echo "User not found.";
-            exit; // Stop further execution
+            exit;
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
-        exit; // Stop further execution
+        exit;
     }
 }
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <?php include("header.php")?>
     <title>User Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        h2 {
-            text-align: center;
-        }
-        p {
-            margin-bottom: 10px;
-        }
-        img {
-            max-width: 100%;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+    <!-- Rest of your styles and scripts... -->
 </head>
 <body>
     <div class="container">
         <h2>User Profile: <?php echo $username; ?></h2>
         <img src="<?php echo $profile_pic; ?>" alt="Profile Picture">
         <p>Email: <?php echo $email; ?></p>
-        <p>Registration Date: <?php echo $registration_date; ?></p>
-        <p>Replies: <?php echo $reply_count; ?></p>
-        <p>Topics Created: <?php echo $topic_count; ?></p>
+    <p>Registration Date: <?php echo $registration_date; ?></p>
+    <p>Replies: <?php echo $reply_count; ?></p>
+    <p>Topics Created: <?php echo $topic_count; ?></p>
+    <p>Questions Posted: <?php echo $question_count; ?></p>
+
     </div>
 </body>
 </html>

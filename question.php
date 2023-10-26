@@ -10,32 +10,51 @@ if (!isset($_SESSION["username"])) {
 if (isset($_GET["id"])) {
     $question_id = $_GET["id"];
 
-    try {
-        // Fetch the question and its details from the database
-        $question_query = "SELECT q.title AS question_title, q.content AS question_content, q.image_path AS question_image, q.topic_id, u.username AS posted_by
-                          FROM questions AS q
-                          JOIN user AS u ON q.user_id = u.id
-                          WHERE q.id = :question_id";
-        $stmt = $pdo->prepare($question_query);
-        $stmt->bindParam(':question_id', $question_id);
-        $stmt->execute();
-        $question = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Handle the reply posting
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reply_content"]) && $_POST["reply_content"] != '') {
+        $reply_content = $_POST["reply_content"];
+        $user_id = $_SESSION["user_id"];
 
-        // Fetch the replies related to the question
-        $replies_query = "SELECT r.reply_content AS reply_content, u.username AS replied_by
-                        FROM replies AS r
-                        JOIN user AS u ON r.user_id = u.id
-                        WHERE r.question_id = :question_id";
-        $stmt = $pdo->prepare($replies_query);
+        // Insert the new reply into the database
+        $insert_query = "INSERT INTO replies (question_id, reply_content, user_id) VALUES (:question_id, :reply_content, :user_id)";
+        $stmt = $pdo->prepare($insert_query);
         $stmt->bindParam(':question_id', $question_id);
-        $stmt->execute();
-        $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':reply_content', $reply_content);
+        $stmt->bindParam(':user_id', $user_id);
 
-        $topic_id = $question['topic_id']; // Get the topic_id from the question details
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-        exit();
+        if ($stmt->execute()) {
+            // Update the reply_count for the user
+            $update_count_query = "UPDATE user SET reply_count = COALESCE(reply_count, 0) + 1 WHERE id = :user_id";
+            $update_stmt = $pdo->prepare($update_count_query);
+            $update_stmt->bindParam(':user_id', $user_id);
+            $update_stmt->execute();
+        } else {
+            echo "Error: Failed to insert reply.";
+            exit();
+        }
     }
+
+    // Fetch the question and its details from the database
+    $question_query = "SELECT q.title AS question_title, q.content AS question_content, q.image_path AS question_image, q.topic_id, u.username AS posted_by
+                      FROM questions AS q
+                      JOIN user AS u ON q.user_id = u.id
+                      WHERE q.id = :question_id";
+    $stmt = $pdo->prepare($question_query);
+    $stmt->bindParam(':question_id', $question_id);
+    $stmt->execute();
+    $question = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Fetch the replies related to the question
+    $replies_query = "SELECT r.reply_content AS reply_content, u.username AS replied_by
+                    FROM replies AS r
+                    JOIN user AS u ON r.user_id = u.id
+                    WHERE r.question_id = :question_id";
+    $stmt = $pdo->prepare($replies_query);
+    $stmt->bindParam(':question_id', $question_id);
+    $stmt->execute();
+    $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $topic_id = $question['topic_id']; // Get the topic_id from the question details
 } else {
     echo "Invalid question ID";
     exit();
@@ -68,7 +87,7 @@ if (isset($_GET["id"])) {
 
     <!-- Add a reply form -->
     <h2>Post a Reply</h2>
-    <form method="post" action="post_reply.php">
+    <form method="post" action="">
         <input type="hidden" name="question_id" value="<?php echo $question_id; ?>">
         <textarea name="reply_content" rows="4" cols="50" required></textarea><br>
         <input type="submit" name="submit" value="Post Reply">
