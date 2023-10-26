@@ -82,11 +82,12 @@ if (isset($_POST["submit"])) {
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="register.style.css">
     <title>Registration</title>
 </head>
 <body>
-    <h2>Register</h2>
     <form action="register.php" method="post" enctype="multipart/form-data">
+        <h2>Register</h2>
         <label for="username">Username:</label>
         <input type="text" name="username" required><br>
         <label for="password">Password:</label>
@@ -97,6 +98,9 @@ if (isset($_POST["submit"])) {
         <input type="email" name="email" required><br>
         <label for="profile_pic">Profile Picture:</label>
         <input type="file" name="profile_pic" accept="image/*"><br>
+        <div class="login-link">
+            <p>Already have an account? <a href="login.php">Login</a></p>
+        </div>
         <input type="submit" name="submit" value="Register">
     </form>
 </body>

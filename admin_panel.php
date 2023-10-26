@@ -1,67 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="style.css">
     <title>Admin Panel</title>
-    <style>
-        /* Your CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .header a:hover {
-            background-color: #555;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        h1 {
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #333;
-            color: #fff;
-        }
-    </style>
 </head>
 <body>
+   
     <?php
     require('connect.php'); // Include the PDO database connection file
 
@@ -115,7 +59,7 @@
             echo "Error fetching messages: " . $e->getMessage();
         }
     } else {
-        echo "You are not authorized to access the admin panel.";
+        header("Location: login.php");
     }
     ?>
 

@@ -115,9 +115,9 @@ if (isset($_POST["submit"])) {
 
 <body>
     <div class="header">
-        <h1>Topic:
-            <?php echo $topic['title']; ?>
-        </h1>
+        <h1 class="topic-title">
+    <?php echo $topic['title']; ?>
+</h1>
     </div>
 
     <div class="container">

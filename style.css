@@ -176,7 +176,7 @@ body {
 }
 
 h1, h2 {
-    color: #333;
+    color: #000000;
 }
 
 .success-message, .error-message {
@@ -239,4 +239,9 @@ a:hover {
 img {
     max-width: 100%;
     border-radius: 5px;
+}
+.topic-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
 }

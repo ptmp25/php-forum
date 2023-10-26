@@ -35,6 +35,8 @@ if (isset($_GET['username'])) {
 <head>
     <?php include("header.php")?>
     <title>User Profile</title>
+    <style>
+    </style>
 </head>
 <body>
     <div class="container">

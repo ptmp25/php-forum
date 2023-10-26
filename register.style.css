@@ -1,0 +1,77 @@
+/* Style for the registration form container */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Style for form headings */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Style for labels and input fields */
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 8px; /* Smaller padding */
+    margin-bottom: 10px; /* Smaller margin */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Style for file input field */
+input[type="file"] {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 10px; /* Smaller margin */
+    padding: 3px; /* Smaller padding */
+}
+
+/* Style for the Register button */
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px; /* Smaller padding */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style for error messages */
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+/* Style for success message */
+.success {
+    color: green;
+    margin-top: 5px;
+}
+
+/* Style for the "Already have an account? Login" link */
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-link a {
+    text-decoration: none;
+    color: #007bff;
+}

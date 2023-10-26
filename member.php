@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-    
+
 <head>
-<?php
-session_start();
-include("header.php");
+    <?php
+    include("header.php");
     ?>
     <title>User Page</title>
 </head>
+
 <body>
     <div class="user-list-content">
         <h2>User List</h2>
@@ -15,6 +15,12 @@ include("header.php");
             <?php
             // You can add your code here to display the user list
             require('connect.php');
+            session_start();
+
+            if (!isset($_SESSION["username"])) {
+                header("Location: login.php");
+                exit();
+            }
             try {
                 $select_stmt = $pdo->prepare("SELECT username, email, role FROM user");
                 $select_stmt->execute();
@@ -29,13 +35,13 @@ include("header.php");
 
                     while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo '<tr>';
-                        
+
                         // Check if the user has the "admin" role
                         $isAdmin = $row['role'] === 'admin';
-                        
+
                         // Apply red color to admin user's username
-                        $usernameStyle = $isAdmin ? 'class="admin-username"' : '';
-                        
+                        $usernameStyle = $isAdmin ? 'style="color:red;"' : '';
+
                         echo '<td><a href="profile.php?username=' . $row['username'] . '" ' . $usernameStyle . '>' . $row['username'] . '</a></td>';
                         echo '<td>' . $row['email'] . '</td>';
                         echo '</tr>';
@@ -52,4 +58,5 @@ include("header.php");
         </div>
     </div>
 </body>
+
 </html>
