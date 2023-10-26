@@ -3,7 +3,15 @@
 
 <head>
     <?php
-    include("header.php");
+    // You can add your code here to display the user list
+    require('connect.php');
+    session_start();
+
+    if (!isset($_SESSION["username"])) {
+        header("Location: login.php");
+        exit();
+    }
+    require("header.php");
     ?>
     <title>User Page</title>
 </head>
@@ -13,18 +21,9 @@
         <h2>User List</h2>
         <div class="table-container">
             <?php
-            // You can add your code here to display the user list
-            require('connect.php');
-            session_start();
-
-            if (!isset($_SESSION["username"])) {
-                header("Location: login.php");
-                exit();
-            }
             try {
                 $select_stmt = $pdo->prepare("SELECT username, email, role FROM user");
                 $select_stmt->execute();
-
                 if ($select_stmt->rowCount() > 0) {
                     echo '<table>';
                     echo '<tr>';
@@ -54,7 +53,7 @@
             } catch (PDOException $e) {
                 echo 'Error: ' . $e->getMessage();
             }
-            
+
             ?>
         </div>
     </div>
