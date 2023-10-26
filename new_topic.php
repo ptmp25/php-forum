@@ -7,7 +7,10 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
-if (isset($_POST["submit"])) {
+// Check if the user is an admin
+$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
+if (isset($_POST["submit"]) && $is_admin) { // Only admins can create topics
     $title = $_POST["title"];
     $user_id = $_SESSION["user_id"];
 
@@ -29,7 +32,6 @@ if (isset($_POST["submit"])) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -100,14 +102,18 @@ if (isset($_POST["submit"])) {
 </head>
 <body>
     <div class="container">
-        <h1>Create New Topic</h1>
-        
-        <form method="post" action="">
-            <label for="title">Title:</label>
-            <input type="text" name="title" required><br>
+        <?php if ($is_admin): ?> <!-- Check if the user is an admin -->
+            <h1>Create New Topic</h1>
+            
+            <form method="post" action="">
+                <label for="title">Title:</label>
+                <input type="text" name="title" required><br>
 
-            <input type="submit" name="submit" value="Create Topic">
-        </form>
+                <input type="submit" name="submit" value="Create Topic">
+            </form>
+        <?php else: ?>
+            <h1>Only admin can create topics.</h1>
+        <?php endif; ?>
         
         <a href="homepage.php">Back to Homepage</a>
     </div>

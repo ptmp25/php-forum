@@ -47,21 +47,26 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="homepage.php">Home Page</a> | 
-        <a href="account.php">My Account</a> | 
-        <a href="member.php">Members</a> | 
-        <a href="logout.php">Log Out</a>
-    </div>
-
-    <div class="content">
+<div class="header">
+    <a href="homepage.php">Home Page</a> | 
+    <a href="account.php">My Account</a> | 
+    <a href="member.php">Members</a> | 
+    
+    
     <?php
     // Check if the user is logged in
-if (isset($_SESSION['username'])) {
-    echo "<span class='welcome-message'>Welcome, " . $_SESSION['username'] . "</span>";
-}
+    if (isset($_SESSION['username'])) {
+        // Check if the user is an admin
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            echo '<a href="admin_panel.php">Admin Panel</a> | ';
+        }
+        
+    } 
 
     ?>
-    </div>
+    <a href="logout.php">Logout</a> |
+</div>
+
+
 </body>
 </html>

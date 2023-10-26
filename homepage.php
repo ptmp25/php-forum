@@ -7,6 +7,9 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
+// Check if the user is an admin
+$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+
 // Fetch topics and their question/reply counts from the database
 $query = "SELECT t.id, t.title,
                  COALESCE(COUNT(DISTINCT q.id), 0) AS question_count,
@@ -24,8 +27,11 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("header.php")?>
-    <title>Forum - Topics</title>
+<?php include("header.php")?>    
+<title>Forum - Topics</title>
+    <style>
+        /* Your CSS styles here */
+    </style>
 </head>
 <body>
     <h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
@@ -38,11 +44,19 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php echo $topic['title']; ?>
                 </a>
                 <small>(<?php echo $topic['question_count']; ?> questions, <?php echo $topic['reply_count']; ?> replies)</small>
+                <?php if ($is_admin): ?> <!-- Display the Delete Topic button for admin users -->
+                    <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
+                        <input type="submit" name="delete_topic" value="Delete Topic">
+                    </form>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
     
-    <a href="new_topic.php">Create New Topic</a><br>
+    <?php if ($is_admin): ?> <!-- Display the Create New Topic button for admin users -->
+        <a href="new_topic.php">Create New Topic</a><br>
+    <?php endif; ?>
+
     <a href="logout.php">Logout</a>
 </body>
 </html>
