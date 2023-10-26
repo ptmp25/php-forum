@@ -45,13 +45,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bindParam(':image_path', $image_path);
         
         if ($stmt->execute()) {
+            $question_id = $pdo->lastInsertId(); // Get the question_id of the question that was just inserted
             // Increment the question_count for the user
             $update_count_query = "UPDATE user SET question_count = COALESCE(question_count, 0) + 1 WHERE id = :user_id";
             $update_stmt = $pdo->prepare($update_count_query);
             $update_stmt->bindParam(':user_id', $user_id);
             $update_stmt->execute();
 
-            header("Location: topic.php?id=" . $topic_id);
+            header("Location: question.php?id=$question_id");
             exit();
         } else {
             echo "Error: Failed to insert question.";
@@ -67,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html>
 <head>
     <title>New Question</title>
+    <?php include("header.php"); ?>
 </head>
 <body>
     <h1>New Question</h1>

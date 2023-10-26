@@ -35,38 +35,6 @@ if (isset($_GET['username'])) {
 <head>
     <?php include("header.php")?>
     <title>User Profile</title>
-    <style>
-        .container {
-            font-family: 'Arial', sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        img {
-            display: block;
-            margin: 0 auto 20px auto;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 3px solid #ddd;
-        }
-
-        p {
-            font-size: 18px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">

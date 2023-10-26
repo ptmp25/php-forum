@@ -7,67 +7,6 @@ session_start();
 include("header.php");
     ?>
     <title>User Page</title>
-    <style>
-        /* Styling for the User Page content */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .user-list-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        th, td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #ccc;
-            text-align: left;
-        }
-
-        th {
-            background-color: #007BFF;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-
-        a.admin-username {
-            color: red;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Center the table */
-        .table-container {
-            overflow-x: auto;
-        }
-    </style>
 </head>
 <body>
     <div class="user-list-content">

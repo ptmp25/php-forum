@@ -108,96 +108,34 @@ if (isset($_GET["id"])) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
-<?php include("header.php")?>
+    <?php include("header.php") ?>
     <title>Question</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px 40px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            color: #333;
-        }
-
-        p, li {
-            color: #555;
-        }
-
-        img {
-            max-width: 100%;
-            border-radius: 5px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        button, input[type="submit"] {
-            background-color: #007BFF;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover, input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-    </style>
 </head>
+
 <body>
     <div class="container">
-        <h1><?php echo $question['question_title']; ?></h1>
-        <p><strong>Posted by:</strong> <?php echo $question['posted_by']; ?> on <?php echo $question['question_date']; ?></p>
-        <p><?php echo $question['question_content']; ?></p>
+        <h1>
+            <?php echo $question['question_title']; ?>
+        </h1>
+        <p><strong>Posted by:</strong>
+            <?php echo $question['posted_by']; ?> on
+            <?php echo $question['question_date']; ?>
+        </p>
+        <p>
+            <?php echo $question['question_content']; ?>
+        </p>
 
         <?php if (!empty($question['question_image'])): ?>
             <img src="<?php echo $question['question_image']; ?>" alt="Question Image">
         <?php endif; ?>
         <?php if ($isOwnerOrAdmin): ?>
-        <a href="edit_question.php?id=<?php echo $question_id; ?>">Edit Question</a>
+            <a href="edit_question.php?id=<?php echo $question_id; ?>">Edit Question</a>
         <?php endif; ?>
         <?php if ($isOwnerOrAdmin): ?>
-            <form method="post" action="" onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone.');">
+            <form method="post" action=""
+                onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone.');">
                 <input type="hidden" name="action" value="delete">
                 <input type="submit" value="Delete Question">
             </form>
@@ -207,11 +145,16 @@ if (isset($_GET["id"])) {
         <ul>
             <?php foreach ($replies as $reply): ?>
                 <li>
-                    <p><strong>Replied by:</strong> <?php echo $reply['replied_by']; ?> on <?php echo $reply['reply_date']; ?></p>
+                    <p><strong>Replied by:</strong>
+                        <?php echo $reply['replied_by']; ?> on
+                        <?php echo $reply['reply_date']; ?>
+                    </p>
                     <?php if ($reply['reply_content'] === 'Deleted reply'): ?>
                         <p>Deleted reply</p>
                     <?php else: ?>
-                        <p><?php echo $reply['reply_content']; ?></p>
+                        <p>
+                            <?php echo $reply['reply_content']; ?>
+                        </p>
                     <?php endif; ?>
                     <?php if ($isOwnerOrAdmin): ?>
                         <form method="post" action="">
@@ -236,4 +179,5 @@ if (isset($_GET["id"])) {
         <a href="logout.php">Logout</a>
     </div>
 </body>
+
 </html>
