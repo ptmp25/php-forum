@@ -34,39 +34,33 @@
         .content {
             padding: 20px;
         }
-        .welcome-message {
-    font-size: 20px;
-    padding: 10px 15px;
-    margin-top: 15px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    display: inline-block; /* this will ensure the box wraps tightly around the text */
-}
 
+        .welcome-message {
+            font-size: 20px;
+            padding: 10px 15px;
+            margin-top: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block; /* this will ensure the box wraps tightly around the text */
+        }
     </style>
 </head>
 <body>
 <div class="header">
-    <a href="homepage.php">Home Page</a> | 
-    <a href="account.php">My Account</a> | 
-    <a href="member.php">Members</a> | 
-    
-    
+    <a href="homepage.php">Home Page</a> |
+    <a href="account.php">My Account</a> |
+    <a href="member.php">Members</a> |
+    <a href="contact.php">Contact Us</a> |
     <?php
-    // Check if the user is logged in
-    if (isset($_SESSION['username'])) {
-        // Check if the user is an admin
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            echo '<a href="admin_panel.php">Admin Panel</a> | ';
-        }
-        
-    } 
-
+  
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') 
+            // Display the "Admin Panel" link for admin users
+            echo '<a href="admin_panel.php">Admin Panel</a> | '
+    
     ?>
     <a href="logout.php">Logout</a> |
+   
 </div>
-
-
 </body>
 </html>

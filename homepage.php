@@ -27,14 +27,112 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("header.php")?>    
-<title>Forum - Topics</title>
+    <?php include("header.php") ?>
+    <title>Forum - Topics</title>
     <style>
-        /* Your CSS styles here */
+       body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        small {
+            color: #888;
+        }
+
+        form {
+            display: inline;
+        }
+
+        input[type="submit"] {
+            background-color: #FF5722;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #E64A19;
+        }
+
+        a.create-topic {
+            display: block;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        a.create-topic:hover {
+            background-color: #0056b3;
+        }
+
+        a.logout {
+            display: block;
+            background-color: #FF5722;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        a.logout:hover {
+            background-color: #E64A19;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
+<h1>Welcome, <span><?php echo $_SESSION["username"]; ?></span></h1>
+    
     <h2>Topics</h2>
     
     <ul>
@@ -44,7 +142,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php echo $topic['title']; ?>
                 </a>
                 <small>(<?php echo $topic['question_count']; ?> questions, <?php echo $topic['reply_count']; ?> replies)</small>
-                <?php if ($is_admin): ?> <!-- Display the Delete Topic button for admin users -->
+                <?php if ($is_admin): ?>
                     <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
                         <input type="submit" name="delete_topic" value="Delete Topic">
                     </form>
@@ -53,10 +151,10 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </ul>
     
-    <?php if ($is_admin): ?> <!-- Display the Create New Topic button for admin users -->
-        <a href="new_topic.php">Create New Topic</a><br>
+    <?php if ($is_admin): ?>
+        <a href="new_topic.php" class="create-topic">Create New Topic</a><br>
     <?php endif; ?>
 
-    <a href="logout.php">Logout</a>
+    <a href="logout.php" class="logout">Logout</a>
 </body>
 </html>
