@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         }
 
         a {
-            display: block;
+            /* display: block; */
             text-align: center;
             margin-top: 20px;
             color: #007bff;
