@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<head>
     <?php
     
     require('connect.php');
@@ -65,36 +66,6 @@
         } catch (PDOException $e) {
             echo "Error fetching messages: " . $e->getMessage();
         }
-        
-        // Handle message deletion
-        if (isset($_POST['delete_message'])) {
-            $message_id = $_POST['message_id'];
-
-            try {
-                // Check if the message belongs to the current admin
-                $check_message_query = "SELECT id FROM messages WHERE id = :message_id AND recipient_admin_id = :recipient_id";
-                $stmt = $pdo->prepare($check_message_query);
-                $stmt->bindParam(':message_id', $message_id);
-                $stmt->bindParam(':recipient_id', $recipient_id);
-                $stmt->execute();
-
-                if ($stmt->rowCount() == 1) {
-                    // Delete the message
-                    $delete_message_query = "DELETE FROM messages WHERE id = :message_id";
-                    $stmt = $pdo->prepare($delete_message_query);
-                    $stmt->bindParam(':message_id', $message_id);
-                    $stmt->execute();
-
-                    echo "Message with ID $message_id has been deleted.";
-
-                    // Redirect back to the admin panel page after deletion
-                    header("Location: admin_panel.php");
-                    exit();
-                } 
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
-            }
-        }
     } else {
         header("Location: login.php");
     }
@@ -117,7 +88,6 @@
             <th>Email</th>
             <th>Message</th>
             <th>Created At</th>
-            <th>Action</th> <!-- Add a new column for the delete button -->
         </tr>
         <?php foreach ($messages as $message): ?>
             <tr>
@@ -125,13 +95,6 @@
                 <td><?php echo $message['sender_email']; ?></td>
                 <td><?php echo $message['message']; ?></td>
                 <td><?php echo $message['message_created_at']; ?></td>
-                <td>
-                    <!-- Add a Delete button with a form to handle the delete action -->
-                    <form method="post" action="">
-                        <input type="hidden" name="message_id" value="<?php echo $message['id']; ?>">
-                        <input type="submit" name="delete_message" value="Delete">
-                    </form>
-                </td>
             </tr>
         <?php endforeach; ?>
     </table>
