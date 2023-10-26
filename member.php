@@ -1,49 +1,104 @@
+<?php
+session_start();
+
+// Check if the user is not logged in and redirect to login.php
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    
-    
     <title>User Page</title>
+    <style>
+        /* Styling specific to the User Page content */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .user-list-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
     <?php include("header.php")?>
 </head>
 <body>
-    <h2>User List</h2>
+    <div class="user-list-content">
+        <h2>User List</h2>
     <?php
-    session_start();
+    // You can add your code here to display the user list
+    require('connect.php');
+    try {
+        $select_stmt = $pdo->prepare("SELECT username, email FROM user");
+        $select_stmt->execute();
 
-    // Check if the user is logged in by verifying a session variable, for example, 'username'
-    if (isset($_SESSION['username'])) {
-        echo "Log in as: " . $_SESSION['username']; // Display the username
-        require('connect.php');
-        try {
-            $select_stmt = $pdo->prepare("SELECT username, email FROM user");
-            $select_stmt->execute();
+        if ($select_stmt->rowCount() > 0) {
+            echo '<table>';
+            echo '<tr>';
+            echo '<th>Username</th>';
+            echo '<th>Email</th>';
+            // Add other profile information headers here if needed
+            echo '</tr>';
 
-            if ($select_stmt->rowCount() > 0) {
-                echo '<table>';
+            while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '<tr>';
-                echo '<th>Username</th>';
-                echo '<th>Email</th>';
-                // Add other profile information headers here if needed
+                echo '<td><a href="profile.php?username=' . $row['username'] . '">' . $row['username'] . '</a></td>';
+                echo '<td>' . $row['email'] . '</td>';
                 echo '</tr>';
-
-                while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo '<tr>';
-                    echo '<td><a href="profile.php?username=' . $row['username'] . '">' . $row['username'] . '</a></td>';
-                    echo '<td>' . $row['email'] . '</td>';
-                    echo '</tr>';
-                }
-
-                echo '</table>';
-            } else {
-                echo 'No users found.';
             }
-        } catch (PDOException $e) {
-            echo 'Error: ' . $e->getMessage();
+
+            echo '</table>';
+        } else {
+            echo 'No users found.';
         }
-    } else {
-        echo 'You are not logged in. <a href="login.php">Log in</a> to access this page.';
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
     }
     ?>
+    </div>
 </body>
 </html>

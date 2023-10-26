@@ -7,8 +7,15 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
-// Fetch topics from the database
-$query = "SELECT id, title FROM topics";
+// Fetch topics and their question/reply counts from the database
+$query = "SELECT t.id, t.title,
+                 COALESCE(COUNT(DISTINCT q.id), 0) AS question_count,
+                 COALESCE(COUNT(DISTINCT r.id), 0) AS reply_count
+          FROM topics t
+          LEFT JOIN questions q ON t.id = q.topic_id
+          LEFT JOIN replies r ON q.id = r.question_id
+          GROUP BY t.id";
+          
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,6 +37,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="topic.php?id=<?php echo $topic['id']; ?>">
                     <?php echo $topic['title']; ?>
                 </a>
+                <small>(<?php echo $topic['question_count']; ?> questions, <?php echo $topic['reply_count']; ?> replies)</small>
             </li>
         <?php endforeach; ?>
     </ul>

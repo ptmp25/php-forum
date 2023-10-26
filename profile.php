@@ -1,13 +1,12 @@
 <?php
 require('connect.php'); 
 
-$username = $email = $reply_count = $topic_count = $registration_date = $profile_pic = $question_count = ""; // Initializing all variables
+$username = $email = $reply_count = $topic_count = $registration_date = $profile_pic = $question_count = ""; 
 
 if (isset($_GET['username'])) {
     $username = $_GET['username'];
 
     try {
-        // Fetch all user details, including reply_count and question_count
         $select_stmt = $pdo->prepare("SELECT username, email, COALESCE(reply_count, 0) AS reply_count, COALESCE(topic_count, 0) AS topic_count, COALESCE(question_count, 0) AS question_count, date, COALESCE(profile_pic, 'default.png') AS profile_pic FROM user WHERE username = :username");
         $select_stmt->bindParam(':username', $username);
         $select_stmt->execute();
@@ -19,7 +18,7 @@ if (isset($_GET['username'])) {
             $profile_pic = $row['profile_pic'];
             $reply_count = $row['reply_count'];
             $topic_count = $row['topic_count'];
-            $question_count = $row['question_count']; // Ensure this line exists
+            $question_count = $row['question_count'];
         } else {
             echo "User not found.";
             exit;
@@ -29,7 +28,6 @@ if (isset($_GET['username'])) {
         exit;
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,18 +35,48 @@ if (isset($_GET['username'])) {
 <head>
     <?php include("header.php")?>
     <title>User Profile</title>
-    <!-- Rest of your styles and scripts... -->
+    <style>
+        .container {
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>User Profile: <?php echo $username; ?></h2>
-        <img src="<?php echo $profile_pic; ?>" alt="Profile Picture">
+        <img src="profilepic/<?php echo $profile_pic; ?>" alt="Profile Picture">
         <p>Email: <?php echo $email; ?></p>
-    <p>Registration Date: <?php echo $registration_date; ?></p>
-    <p>Replies: <?php echo $reply_count; ?></p>
-    <p>Topics Created: <?php echo $topic_count; ?></p>
-    <p>Questions Posted: <?php echo $question_count; ?></p>
-
+        <p>Registration Date: <?php echo $registration_date; ?></p>
+        <p>Replies: <?php echo $reply_count; ?></p>
+        <p>Topics Created: <?php echo $topic_count; ?></p>
+        <p>Questions Posted: <?php echo $question_count; ?></p>
     </div>
 </body>
 </html>

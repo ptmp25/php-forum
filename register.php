@@ -6,7 +6,6 @@ if (isset($_POST["submit"])) {
     $password = $_POST["password"];
     $repass = $_POST["repassword"];
     $email = $_POST["email"];
-    $pass_en = sha1($password);
 
     // Check if a profile picture has been uploaded
     if (isset($_FILES["profile_pic"]) && $_FILES["profile_pic"]["error"] == 0) {
@@ -42,9 +41,12 @@ if (isset($_POST["submit"])) {
                         // Capture the current date and time
                         $currentDate = date("Y-m-d H:i:s");
 
+                        // Hash the password using password_hash
+                        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
                         $insert_stmt = $pdo->prepare("INSERT INTO user (username, password, email, date, profile_pic, reply_count, topic_count) VALUES (:username, :password, :email, :date, :profile_pic, 0, 0)");
                         $insert_stmt->bindParam(':username', $username);
-                        $insert_stmt->bindParam(':password', $pass_en);
+                        $insert_stmt->bindParam(':password', $passwordHash); // Store the hashed password
                         $insert_stmt->bindParam(':email', $email);
                         $insert_stmt->bindParam(':date', $currentDate);
                         $insert_stmt->bindParam(':profile_pic', $profile_pic_path);
@@ -75,6 +77,7 @@ if (isset($_POST["submit"])) {
         echo "Empty field(s)";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html>
