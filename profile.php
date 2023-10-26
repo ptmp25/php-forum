@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <?php include("header.php")?>
-    <title>User Profile</title>
-    <style>
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>User Profile: <?php echo $username; ?></h2>
-        <img src="profilepic/<?php echo $profile_pic; ?>" alt="Profile Picture">
-        <p>Email: <?php echo $email; ?></p>
-        <p>Registration Date: <?php echo $registration_date; ?></p>
-        <p>Replies: <?php echo $reply_count; ?></p>
-        <p>Topics Created: <?php echo $topic_count; ?></p>
-        <p>Questions Posted: <?php echo $question_count; ?></p>
-    </div>
-</body>
-</html>
+
 <?php
 session_start();
 require('connect.php'); 
