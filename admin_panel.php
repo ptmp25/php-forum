@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+<head>
+    <?php
+    
+    require('connect.php');
+    session_start();
+
+    if (!isset($_SESSION["username"])) {
+        header("Location: login.php");
+        exit();
+    }
+    require("header.php");
+    ?>
 <link rel="stylesheet" href="style.css">
     <title>Admin Panel</title>
 </head>
 <body>
    
     <?php
-    require('connect.php'); // Include the PDO database connection file
-
-    session_start(); // Start the session
-
     // Check if the user is logged in and is an admin
     if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
         // Check if the promotion form is submitted
@@ -62,24 +70,6 @@
         header("Location: login.php");
     }
     ?>
-
-    <!-- Include your header content here -->
-    <div class="header">
-        <a href="homepage.php">Home Page</a> |
-        <a href="account.php">My Account</a> |
-        <a href="member.php">Members</a> |
-        <?php
-        // Check if the user is logged in
-        if (isset($_SESSION['username'])) {
-            // Check if the user is an admin
-            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                echo '<a href="admin_panel.php">Admin Panel</a> | ';
-            }
-        } 
-        ?>
-        <a href="logout.php">Logout</a> |
-    </div>
-
     <!-- Admin Panel Content -->
     <h1>Welcome to the Admin Panel, <?php echo $_SESSION['username']; ?></h1>
 
