@@ -1,6 +1,8 @@
 <?php
 require('connect.php'); // Include the PDO database connection file
 
+$success_message = '';
+
 if (isset($_POST["submit"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -52,7 +54,7 @@ if (isset($_POST["submit"])) {
                         $insert_stmt->bindParam(':profile_pic', $profile_pic_path);
 
                         if ($insert_stmt->execute()) {
-                            echo "You have registered as $username. Now you can <a href='login.php'>Login</a>";
+                            $success_message = "You have registered as $username </br> Now you can <a href='login.php'>Login</a>";
                         } else {
                             echo "Error: Failed to insert data";
                         }
@@ -98,10 +100,11 @@ if (isset($_POST["submit"])) {
         <input type="email" name="email" required><br>
         <label for="profile_pic">Profile Picture:</label>
         <input type="file" name="profile_pic" accept="image/*"><br>
+        <div id="success-message"><?php echo $success_message; ?></div>
+        <input type="submit" name="submit" value="Register">
         <div class="login-link">
             <p>Already have an account? <a href="login.php">Login</a></p>
         </div>
-        <input type="submit" name="submit" value="Register">
     </form>
 </body>
 </html>
