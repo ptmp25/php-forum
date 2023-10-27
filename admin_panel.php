@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+
 <head>
     <?php
-    
     require('connect.php');
     session_start();
 
@@ -12,15 +11,10 @@
         exit();
     }
     require("header.php");
-    ?>
-<link rel="stylesheet" href="style.css">
-    <title>Admin Panel</title>
-</head>
-<body>
-   
-    <?php
+
     // Check if the user is logged in and is an admin
     if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+
         // Check if the promotion form is submitted
         if (isset($_POST['promote_user'])) {
             $promote_username = $_POST['promote_username'];
@@ -52,6 +46,27 @@
             }
         }
 
+        // Handle message deletion
+        if (isset($_POST['delete_message']) && isset($_POST['delete_message_id'])) {
+            $message_id_to_delete = $_POST['delete_message_id'];
+
+            try {
+                $delete_query = "DELETE FROM messages WHERE id = :message_id";
+                $stmt = $pdo->prepare($delete_query);
+                $stmt->bindParam(':message_id', $message_id_to_delete);
+                $stmt->execute();
+
+                if ($stmt->rowCount() == 1) {
+                    header("Location: " . $_SERVER['PHP_SELF']);  // Redirect to the same page
+                    exit();
+                } else {
+                    echo "Error deleting the message.";
+                }
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+
         // Fetch messages from the database and display them
         try {
             $recipient_id = $_SESSION['user_id']; // Get the current admin's user ID
@@ -68,8 +83,15 @@
         }
     } else {
         header("Location: login.php");
+        exit();
     }
     ?>
+
+    <link rel="stylesheet" href="style.css">
+    <title>Admin Panel</title>
+</head>
+
+<body>
     <!-- Admin Panel Content -->
     <h1>Welcome to the Admin Panel, <?php echo $_SESSION['username']; ?></h1>
 
@@ -88,15 +110,23 @@
             <th>Email</th>
             <th>Message</th>
             <th>Created At</th>
+            <th>Action</th> <!-- New column for the delete action -->
         </tr>
         <?php foreach ($messages as $message): ?>
-            <tr>
-                <td><?php echo $message['name']; ?></td>
-                <td><?php echo $message['sender_email']; ?></td>
-                <td><?php echo $message['message']; ?></td>
-                <td><?php echo $message['message_created_at']; ?></td>
-            </tr>
+        <tr>
+            <td><?php echo $message['name']; ?></td>
+            <td><?php echo $message['sender_email']; ?></td>
+            <td><?php echo $message['message']; ?></td>
+            <td><?php echo $message['message_created_at']; ?></td>
+            <td>
+                <form method="post" action="">
+                    <input type="hidden" name="delete_message_id" value="<?php echo $message['id']; ?>">
+                    <input type="submit" name="delete_message" value="Delete">
+                </form>
+            </td>
+        </tr>
         <?php endforeach; ?>
     </table>
 </body>
+
 </html>
