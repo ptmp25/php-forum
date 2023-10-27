@@ -39,17 +39,17 @@
     if (isset($_POST["login"])) {
         $username = $_POST["username"];
         $password = $_POST["password"];
-
+    
         if ($username && $password) {
             try {
                 $login_stmt = $pdo->prepare("SELECT id, password, role FROM user WHERE username = :username");
                 $login_stmt->bindParam(':username', $username);
                 $login_stmt->execute();
-
+    
                 if ($login_stmt->rowCount() == 1) {
                     $user = $login_stmt->fetch(PDO::FETCH_ASSOC);
                     $hashedPassword = $user['password'];
-
+    
                     // Verify the password using password_verify
                     if (password_verify($password, $hashedPassword)) {
                         session_start();
@@ -63,16 +63,16 @@
                         }
                         exit();
                     } else {
-                        echo "Invalid username or password. Please try again.";
+                        echo "<p class='error-message'>Invalid username or password. Please try again.</p>";
                     }
                 } else {
-                    echo "Invalid username or password. Please try again.";
+                    echo "<p class='error-message'>Invalid username or password. Please try again.</p>";
                 }
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                echo "<p class='error-message'>Error: " . $e->getMessage() . "</p>";
             }
         } else {
-            echo "Empty field(s)";
+            echo "<p class='error-message'>Empty field(s)</p>";
         }
     }
     ?>

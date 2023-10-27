@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Website</title>
+    <title>Forum</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
