@@ -107,7 +107,9 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
                 <?php echo $user['username']; ?><br>
                 <label for="email">Email:</label>
                 <input type="email" name="newEmail" value="<?php echo $user['email']; ?>"><br>
-                <input type="submit" name="updateEmail" value="Update Email">
+                <div class="submit-button">
+                    <input type="submit" name="updateEmail" value="Update Email">
+                </div>
             </form>
         </div>
 
@@ -148,7 +150,9 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
             <img src="profilepic/<?php echo $user['profile_pic']; ?>" alt="Profile Picture" class="profile-pic"><br>
             <form method="post" action="" enctype="multipart/form-data">
                 <input type="file" name="profilePic" accept="image/*">
-                <input type="submit" name="uploadProfilePic" value="Upload">
+                <div class="submit-button">
+                    <input type="submit" name="uploadProfilePic" value="Upload">
+                </div>
             </form>
         </div>
     </div>

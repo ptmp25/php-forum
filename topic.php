@@ -116,8 +116,8 @@ if (isset($_POST["submit"])) {
 <body>
     <div class="header">
         <h1 class="topic-title">
-    <?php echo $topic['title']; ?>
-</h1>
+            <?php echo $topic['title']; ?>
+        </h1>
     </div>
 
     <div class="container">
@@ -130,19 +130,19 @@ if (isset($_POST["submit"])) {
         <h2>Questions</h2>
         <ul>
             <?php foreach ($questions as $question): ?>
-                <li>
-                    <a href="question.php?id=<?php echo $question['id']; ?>">
+                <a href="question.php?id=<?php echo $question['id']; ?>">
+                    <li>
                         <?php echo $question['title']; ?>
-                    </a>
-                    <?php if ($question['last_reply_username'] && $question['last_reply_timestamp']): ?>
-                        <div>Last Reply by
-                            <?php echo $question['last_reply_username']; ?> on
-                            <?php echo $question['last_reply_timestamp']; ?>
-                        </div>
-                    <?php else: ?>
-                        <div>No replies yet.</div>
-                    <?php endif; ?>
-                </li>
+                        <?php if ($question['last_reply_username'] && $question['last_reply_timestamp']): ?>
+                            <div>Last Reply by
+                                <?php echo $question['last_reply_username']; ?> on
+                                <?php echo $question['last_reply_timestamp']; ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="replies">No replies yet.</div>
+                        <?php endif; ?>
+                    </li>
+                </a>
             <?php endforeach; ?>
         </ul>
 

@@ -18,7 +18,7 @@ $query = "SELECT t.id, t.title,
           LEFT JOIN questions q ON t.id = q.topic_id
           LEFT JOIN replies r ON q.id = r.question_id
           GROUP BY t.id";
-          
+
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,35 +26,44 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <?php include("header.php") ?>
     <title>Forum - Topics</title>
 </head>
+
 <body>
-<h1>Welcome, <span><?php echo $_SESSION["username"]; ?></span></h1>
-    
-    <h2>Topics</h2>
-    
-    <ul>
-        <?php foreach ($topics as $topic): ?>
-            <li>
+    <h1>Welcome, <span>
+            <?php echo $_SESSION["username"]; ?>
+        </span></h1>
+
+    <div class="container">
+        <h2>Topics</h2>
+        <ul>
+            <?php foreach ($topics as $topic): ?>
                 <a href="topic.php?id=<?php echo $topic['id']; ?>">
-                    <?php echo $topic['title']; ?>
+                    <li>
+                        <?php echo $topic['title']; ?>
+                        <small>(
+                            <?php echo $topic['question_count']; ?> questions,
+                            <?php echo $topic['reply_count']; ?> replies)
+                        </small>
+                        <?php if ($is_admin): ?>
+                            <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
+                                <input type="submit" name="delete_topic" value="Delete Topic">
+                            </form>
+                        <?php endif; ?>
+                    </li>
                 </a>
-                <small>(<?php echo $topic['question_count']; ?> questions, <?php echo $topic['reply_count']; ?> replies)</small>
-                <?php if ($is_admin): ?>
-                    <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
-                        <input type="submit" name="delete_topic" value="Delete Topic">
-                    </form>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-    
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
     <?php if ($is_admin): ?>
         <a href="new_topic.php" class="create-topic">Create New Topic</a><br>
     <?php endif; ?>
 
     <a href="logout.php" class="logout">Logout</a>
 </body>
+
 </html>

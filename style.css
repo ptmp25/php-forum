@@ -27,10 +27,11 @@ a.create-topic,
 a.logout {
     color: #fff;
     text-decoration: none;
-    margin: 0 15px;
+    margin: 0 auto;
     padding: 5px 10px;
     border-radius: 5px;
     transition: background-color 0.3s;
+    width: 10%;
 }
 
 .header a:hover,
@@ -275,4 +276,16 @@ img {
 
 .form-group{
     margin: 0 auto;
+}
+
+.container li {
+    text-align: left;
+}
+
+.replies, 
+.replies:hover,
+.replies:visited,
+.replies:active {
+    text-decoration: none;
+    color: black;
 }
