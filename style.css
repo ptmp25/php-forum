@@ -245,3 +245,34 @@ img {
     margin-bottom: 20px;
     color: #ffffff;
 }
+/* Apply styles to the profile picture */
+.profile-pic {
+    max-width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.form-section {
+    margin: 10px auto;
+    height: 100%;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 5px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+.form-section input {
+    border: 0.5px solid black;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.submit-button{
+    display: block;
+    text-align: center !important;
+}
+
+.form-group{
+    margin: 0 auto;
+}

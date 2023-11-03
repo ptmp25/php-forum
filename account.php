@@ -86,16 +86,21 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="styles.css">
+
 <head>
-    <?php include("header.php")?>
+    <?php include("header.php") ?>
     <title>Account Page</title>
 </head>
+
 <body>
     <div class="container">
         <h2>Your Account Information</h2>
         <div class="form-section">
             <?php if ($emailSuccess): ?>
-            <div class="success-message"><?php echo $emailSuccess; ?></div>
+                <div class="success-message">
+                    <?php echo $emailSuccess; ?>
+                </div>
             <?php endif; ?>
             <form method="post" action="">
                 <label for="username">Username:</label>
@@ -109,24 +114,36 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
         <h2>Change Password</h2>
         <div class="form-section">
             <?php if ($passwordSuccess): ?>
-            <div class="success-message"><?php echo $passwordSuccess; ?></div>
+                <div class="success-message">
+                    <?php echo $passwordSuccess; ?>
+                </div>
             <?php endif; ?>
             <?php if ($passwordError): ?>
-            <div class="error-message"><?php echo $passwordError; ?></div>
+                <div class="error-message">
+                    <?php echo $passwordError; ?>
+                </div>
             <?php endif; ?>
             <form method="post" action="">
-                <label for="newPassword">New Password:</label>
-                <input type="password" name="newPassword"><br>
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" name="confirmPassword"><br>
-                <input type="submit" name="updatePassword" value="Update Password">
+                <div class="form-group">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" name="newPassword"><br>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" name="confirmPassword"><br>
+                </div>
+                <div class="submit-button">
+                    <input type="submit" name="updatePassword" value="Update Password">
+                </div>
             </form>
         </div>
 
         <h2>Change Profile Picture</h2>
         <div class="form-section">
             <?php if ($profilePicSuccess): ?>
-            <div class="success-message"><?php echo $profilePicSuccess; ?></div>
+                <div class="success-message">
+                    <?php echo $profilePicSuccess; ?>
+                </div>
             <?php endif; ?>
             <img src="profilepic/<?php echo $user['profile_pic']; ?>" alt="Profile Picture" class="profile-pic"><br>
             <form method="post" action="" enctype="multipart/form-data">
@@ -136,4 +153,5 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
         </div>
     </div>
 </body>
+
 </html>
