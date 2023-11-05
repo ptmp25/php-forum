@@ -103,8 +103,7 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
                 </div>
             <?php endif; ?>
             <form method="post" action="">
-                <label for="username">Username:</label>
-                <?php echo $user['username']; ?><br>
+                <label for="username">Username: <?php echo $user['username']; ?></label>
                 <label for="email">Email:</label>
                 <input type="email" name="newEmail" value="<?php echo $user['email']; ?>"><br>
                 <div class="submit-button">
@@ -135,7 +134,7 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
                     <input type="password" name="confirmPassword"><br>
                 </div>
                 <div class="submit-button">
-                    <input type="submit" name="updatePassword" value="Update Password">
+                    <input type="submit" name="updatePassword" value="Update Password" style="width:150px">
                 </div>
             </form>
         </div>

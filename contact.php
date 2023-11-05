@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':role', $role);
         $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $sender['email']); 
+        $stmt->bindParam(':email', $sender['email']);
         $stmt->bindParam(':message', $message);
         $stmt->bindParam(':recipient_id', $recipient['id']);
 
@@ -55,40 +55,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <?php include("header.php") ?>
     <title>Message Panel</title>
 </head>
+
 <body>
     <div class="container">
-        <h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
+        <h1>Welcome,
+            <?php echo $_SESSION["username"]; ?>
+        </h1>
 
         <?php if (isset($success_message)): ?>
-            <div class="success-message"><?php echo $success_message; ?></div>
+            <div class="success-message">
+                <?php echo $success_message; ?>
+            </div>
         <?php endif; ?>
 
         <?php if (isset($error_message)): ?>
-            <div class="error-message"><?php echo $error_message; ?></div>
+            <div class="error-message">
+                <?php echo $error_message; ?>
+            </div>
         <?php endif; ?>
 
         <h2>Message Panel</h2>
 
         <form method="post" action="">
-            <label for="admin_select">Select Admin:</label>
-            <select name="admin_username" id="admin_select" required>
-                <option value="" disabled selected>Select an Admin</option>
-                <?php foreach ($admins as $admin): ?>
-                    <option value="<?php echo $admin['username']; ?>"><?php echo $admin['username']; ?></option>
-                <?php endforeach; ?>
-            </select>
 
-            <label for="message">Message:</label>
-            <textarea name="message" id="message" rows="4" required></textarea><br>
+            <div class="input-group">
+                <label for="admin_select">Select Admin:</label>
+                <select class="input-group" name="admin_username" id="admin_select" required>
+                    <option value="" disabled selected>Select an Admin</option>
+                    <?php foreach ($admins as $admin): ?>
+                        <option value="<?php echo $admin['username']; ?>">
+                            <?php echo $admin['username']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
+            <div >
+                <label for="message">Message:</label>
+                <textarea class="input-group" name="message" id="message" rows="4" required></textarea><br>
+            </div>
             <input type="submit" name="submit" value="Send Message">
         </form>
 
-        <a href="logout.php">Logout</a>
+        <!-- <a href="logout.php">Logout</a> -->
     </div>
 </body>
+
 </html>

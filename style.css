@@ -201,7 +201,7 @@ h1, h2 {
 
 label {
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
     color: #555;
 }
 
@@ -274,6 +274,10 @@ img {
     text-align: center !important;
 }
 
+.submit-button input{
+    width: 150px;
+}
+
 .form-group{
     margin: 0 auto;
 }
@@ -288,4 +292,9 @@ img {
 .replies:active {
     text-decoration: none;
     color: black;
+}
+
+.input-group {
+    margin: 0 auto;
+    width: 100%;
 }
