@@ -41,20 +41,23 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Modules</h2>
         <ul>
             <?php foreach ($topics as $topic): ?>
-                <a href="topic.php?id=<?php echo $topic['id']; ?>">
-                    <li>
-                        <?php echo $topic['title']; ?>
-                        <small>(
-                            <?php echo $topic['question_count']; ?> questions,
-                            <?php echo $topic['reply_count']; ?> replies)
-                        </small>
-                        <?php if ($is_admin): ?>
-                            <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
-                                <input class="btn" type="submit" name="delete_topic" value="Delete Module">
-                            </form>
-                        <?php endif; ?>
-                    </li>
-                </a>
+                <div class="card">
+
+                    <a href="topic.php?id=<?php echo $topic['id']; ?>">
+                        <li>
+                            <?php echo $topic['title']; ?>
+                            <small>(
+                                <?php echo $topic['question_count']; ?> questions,
+                                <?php echo $topic['reply_count']; ?> replies)
+                            </small>
+                            <?php if ($is_admin): ?>
+                                <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
+                                    <input class="btn" type="submit" name="delete_topic" value="Delete Module">
+                                </form>
+                            <?php endif; ?>
+                        </li>
+                    </a>
+                </div>
             <?php endforeach; ?>
         </ul>
     </div>
