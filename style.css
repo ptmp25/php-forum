@@ -49,6 +49,8 @@ a {
     border-radius: 5px;
     padding: 5px 15px;
     font-size: medium;
+    width: 175px;
+    height: 30px;
 }
 
 .card {

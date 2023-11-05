@@ -131,13 +131,21 @@ if (isset($_GET["id"])) {
             <img src="<?php echo $question['question_image']; ?>" alt="Question Image">
         <?php endif; ?>
         <?php if ($isOwnerOrAdmin): ?>
-            <a href="edit_question.php?id=<?php echo $question_id; ?>">Edit Question</a>
+            <div class="center">
+                <a href="edit_question.php?id=<?php echo $question_id; ?>">
+                    <button class="btn">
+                        Edit Question
+                    </button>
+                </a>
+            </div>
         <?php endif; ?>
         <?php if ($isOwnerOrAdmin): ?>
             <form method="post" action=""
                 onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone.');">
                 <input type="hidden" name="action" value="delete">
-                <input type="submit" value="Delete Question">
+                <div class="center">
+                    <input class="btn" type="submit" value="Delete Question">
+                </div>
             </form>
         <?php endif; ?>
 

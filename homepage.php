@@ -59,11 +59,11 @@ include("header.php");
 
     <?php if ($is_admin): ?>
         <div class="center">
+            <a href="new_topic.php">
             <button class="btn">
-                <a href="new_topic.php">
                     Create New Module
-                </a>
-            </button>
+                </button>
+            </a>
         </div>
     <?php endif; ?>
 
