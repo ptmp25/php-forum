@@ -170,13 +170,9 @@ if (isset($_GET["id"])) {
         <h2>Post a Reply</h2>
         <form method="post" action="">
             <input type="hidden" name="question_id" value="<?php echo $question_id; ?>">
-            <textarea name="reply_content" rows="4" required></textarea><br>
+            <textarea name="reply_content" rows="4" cols="70" required></textarea><br>
             <input type="submit" name="submit" value="Post Reply">
         </form>
-
-        <a href="topic.php?id=<?php echo $topic_id; ?>">Back to Topic</a>
-        <a href="homepage.php">Back to Homepage</a>
-        <a href="logout.php">Logout</a>
     </div>
 </body>
 

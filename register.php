@@ -2,6 +2,7 @@
 require('connect.php'); // Include the PDO database connection file
 
 $success_message = '';
+$errors = array();
 
 if (isset($_POST["submit"])) {
     $username = $_POST["username"];
@@ -56,40 +57,55 @@ if (isset($_POST["submit"])) {
                         if ($insert_stmt->execute()) {
                             $success_message = "You have registered as $username </br> Now you can <a href='login.php'>Login</a>";
                         } else {
-                            echo "Error: Failed to insert data";
+                            array_push($errors, "Error: Failed to insert data");
                         }
                     } else {
-                        echo "Username already exists. Please choose a different username.";
+                        array_push($errors, "Username already exists. Please choose a different username.");
                     }
                 } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
+                    array_push($errors, "Error: " . $e->getMessage());
                 }
             } else {
-                echo "Passwords do not match";
+                array_push($errors, "Passwords do not match");
             }
         } else {
             if (strlen($username) < 5 || strlen($username) > 25) {
-                echo "Username must be between 5 and 25 characters<br>";
+                array_push($errors, "Username must be between 5 and 25 characters");
             }
             if (strlen($password) < 6) {
-                echo "Password must be at least 6 characters long<br>";
+                array_push($errors, "Password must be at least 6 characters long");
             }
         }
     } else {
-        echo "Empty field(s)";
+        array_push($errors, "Empty field(s)");
     }
 }
 
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" href="register.style.css">
+    <link rel="stylesheet" type="text/css" href="register.style.css">
     <title>Registration</title>
 </head>
+
 <body>
     <form action="register.php" method="post" enctype="multipart/form-data">
         <h2>Register</h2>
+        <div class="error-message">
+            <?php
+            if (count($errors) > 0) {
+                echo '<div class="error">';
+                foreach ($errors as $error) {
+                    echo $error . '<br>';
+                }
+                echo '</div>';
+            } ?>
+        </div>
+        <div id="success-message">
+            <?php echo $success_message; ?>
+        </div>
         <label for="username">Username:</label>
         <input type="text" name="username" required><br>
         <label for="password">Password:</label>
@@ -100,11 +116,11 @@ if (isset($_POST["submit"])) {
         <input type="email" name="email" required><br>
         <label for="profile_pic">Profile Picture:</label>
         <input type="file" name="profile_pic" accept="image/*"><br>
-        <div id="success-message"><?php echo $success_message; ?></div>
         <input type="submit" name="submit" value="Register">
         <div class="login-link">
             <p>Already have an account? <a href="login.php">Login</a></p>
         </div>
     </form>
 </body>
+
 </html>

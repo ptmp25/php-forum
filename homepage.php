@@ -29,7 +29,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <?php include("header.php") ?>
-    <title>Forum - Topics</title>
+    <title>Forum - Modules</title>
 </head>
 
 <body>
@@ -38,7 +38,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </span></h1>
 
     <div class="container">
-        <h2>Topics</h2>
+        <h2>Modules</h2>
         <ul>
             <?php foreach ($topics as $topic): ?>
                 <a href="topic.php?id=<?php echo $topic['id']; ?>">
@@ -50,7 +50,7 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </small>
                         <?php if ($is_admin): ?>
                             <form method="post" action="delete_topic.php?id=<?php echo $topic['id']; ?>">
-                                <input type="submit" name="delete_topic" value="Delete Topic">
+                                <input class="btn" type="submit" name="delete_topic" value="Delete Module">
                             </form>
                         <?php endif; ?>
                     </li>
@@ -60,10 +60,11 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <?php if ($is_admin): ?>
-        <a href="new_topic.php" class="create-topic">Create New Topic</a><br>
+        <button class="btn">
+            <a href="new_topic.php" class="create-topic">Create New Module</a>
+        </button>
     <?php endif; ?>
 
-    <a href="logout.php" class="logout">Logout</a>
 </body>
 
 </html>
