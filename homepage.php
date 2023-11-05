@@ -22,15 +22,9 @@ $query = "SELECT t.id, t.title,
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+include("header.php");
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <?php include("header.php") ?>
-    <title>Forum - Modules</title>
-</head>
 
 <body>
     <h1>Welcome, <span>
@@ -45,8 +39,9 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <a href="topic.php?id=<?php echo $topic['id']; ?>">
                         <li>
-                            <?php echo $topic['title']; ?>
-                            <small>(
+                            <div class="name">
+                                <?php echo $topic['title']; ?>
+                            </div><small>(
                                 <?php echo $topic['question_count']; ?> questions,
                                 <?php echo $topic['reply_count']; ?> replies)
                             </small>
@@ -63,9 +58,13 @@ $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <?php if ($is_admin): ?>
-        <button class="btn">
-            <a href="new_topic.php" class="create-topic">Create New Module</a>
-        </button>
+        <div class="center">
+            <button class="btn">
+                <a href="new_topic.php">
+                    Create New Module
+                </a>
+            </button>
+        </div>
     <?php endif; ?>
 
 </body>

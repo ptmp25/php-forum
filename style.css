@@ -38,3 +38,46 @@ nav a:hover {
 a {
     text-decoration: none;
 }
+
+.btn,
+.btn a {
+    background-color: #0065be;
+    color: #f2f2f2;
+    margin: 10px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: medium;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a li {
+    color: #333;
+    list-style-type: none;
+    font-size: large;
+}
+
+a .btn:hover {
+    cursor: pointer;
+}
+
+h1, h2, .center{
+    text-align: center!important;
+}
+
+.name {
+    font-size: 20px;
+    color: #0065be;    
+}
+
+img{
+    width: 100%;
+}
