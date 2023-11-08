@@ -26,28 +26,7 @@ if (isset($_GET["id"])) {
     $isOwnerOrAdmin = $isOwner || $isAdmin;
 
     // Handle the reply posting
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reply_content"]) && $_POST["reply_content"] != '') {
-        $reply_content = $_POST["reply_content"];
-        $user_id = $_SESSION["user_id"];
-
-        // Insert the new reply into the database
-        $insert_query = "INSERT INTO replies (question_id, reply_content, user_id, timestamp) VALUES (:question_id, :reply_content, :user_id, NOW())";
-        $stmt = $pdo->prepare($insert_query);
-        $stmt->bindParam(':question_id', $question_id);
-        $stmt->bindParam(':reply_content', $reply_content);
-        $stmt->bindParam(':user_id', $user_id);
-
-        if ($stmt->execute()) {
-            // Update the reply_count for the user
-            $update_count_query = "UPDATE user SET reply_count = COALESCE(reply_count, 0) + 1 WHERE id = :user_id";
-            $update_stmt = $pdo->prepare($update_count_query);
-            $update_stmt->bindParam(':user_id', $user_id);
-            $update_stmt->execute();
-        } else {
-            echo "Error: Failed to insert reply.";
-            exit();
-        }
-    }
+    // if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reply_content"]) && $_POST["reply_content"] != '') {
 
     // Handle the deletion of the question
     if (isset($_POST["action"]) && $_POST["action"] === "delete" && $isOwnerOrAdmin) {
@@ -168,7 +147,7 @@ if (isset($_GET["id"])) {
                         <form method="post" action="">
                             <input type="hidden" name="action" value="delete_reply">
                             <input type="hidden" name="reply_id" value="<?php echo $reply['reply_id']; ?>">
-                            <input type="submit" value="Delete Reply">
+                            <input type="submit" class="btn" value="Delete Reply">
                         </form>
                     <?php endif; ?>
                 </li>
@@ -176,10 +155,10 @@ if (isset($_GET["id"])) {
         </ul>
 
         <h2>Post a Reply</h2>
-        <form method="post" action="">
+        <form method="post" action="post_reply.php">
             <input type="hidden" name="question_id" value="<?php echo $question_id; ?>">
             <textarea name="reply_content" rows="4" cols="70" required></textarea><br>
-            <input type="submit" name="submit" value="Post Reply">
+            <input type="submit" name="post_reply_btn" value="Post Reply">
         </form>
     </div>
 </body>

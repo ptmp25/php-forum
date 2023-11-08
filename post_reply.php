@@ -7,7 +7,7 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["post_reply_btn"])) {
     $question_id = $_POST["question_id"];
     $reply_content = $_POST["reply_content"];
 
