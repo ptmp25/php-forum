@@ -114,7 +114,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <div class="header">
+    <div>
         <h1 class="topic-title">
             <?php echo $topic['title']; ?>
         </h1>
@@ -130,9 +130,8 @@ if (isset($_POST["submit"])) {
         <h2>Questions</h2>
         <ul>
             <?php foreach ($questions as $question): ?>
+                <a href="question.php?id=<?php echo $question['id']; ?>">
                 <div class="card">
-
-                    <a href="question.php?id=<?php echo $question['id']; ?>">
                         <li>
                             <div class="name">
                                 <?php echo $question['title']; ?>
@@ -147,8 +146,8 @@ if (isset($_POST["submit"])) {
                                 <div class="replies">No replies yet.</div>
                             <?php endif; ?>
                         </li>
-                    </a>
-                </div>
+                    </div>
+                </a>
             <?php endforeach; ?>
         </ul>
     </div>

@@ -132,24 +132,26 @@ if (isset($_GET["id"])) {
         <ul>
             <?php foreach ($replies as $reply): ?>
                 <li>
-                    <p><strong>Replied by:</strong>
-                        <?php echo $reply['replied_by']; ?> on
-                        <?php echo $reply['reply_date']; ?>
-                    </p>
-                    <?php if ($reply['reply_content'] === 'Deleted reply'): ?>
-                        <p>Deleted reply</p>
-                    <?php else: ?>
-                        <p>
-                            <?php echo $reply['reply_content']; ?>
+                    <div class="card">
+                        <p><strong>Replied by:</strong>
+                            <?php echo $reply['replied_by']; ?> on
+                            <?php echo $reply['reply_date']; ?>
                         </p>
-                    <?php endif; ?>
-                    <?php if ($isOwnerOrAdmin): ?>
-                        <form method="post" action="">
-                            <input type="hidden" name="action" value="delete_reply">
-                            <input type="hidden" name="reply_id" value="<?php echo $reply['reply_id']; ?>">
-                            <input type="submit" class="btn" value="Delete Reply">
-                        </form>
-                    <?php endif; ?>
+                        <?php if ($reply['reply_content'] === 'Deleted reply'): ?>
+                            <p>Deleted reply</p>
+                        <?php else: ?>
+                            <p>
+                                <?php echo $reply['reply_content']; ?>
+                            </p>
+                        <?php endif; ?>
+                        <?php if ($isOwnerOrAdmin): ?>
+                            <form method="post" action="">
+                                <input type="hidden" name="action" value="delete_reply">
+                                <input type="hidden" name="reply_id" value="<?php echo $reply['reply_id']; ?>">
+                                <input type="submit" class="btn" value="Delete Reply">
+                            </form>
+                        <?php endif; ?>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -158,7 +160,7 @@ if (isset($_GET["id"])) {
         <form method="post" action="post_reply.php">
             <input type="hidden" name="question_id" value="<?php echo $question_id; ?>">
             <textarea name="reply_content" rows="4" cols="70" required></textarea><br>
-            <input type="submit" name="post_reply_btn" value="Post Reply">
+            <input type="submit" name="post_reply_btn" class="btn" value="Post Reply">
         </form>
     </div>
 </body>
