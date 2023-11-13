@@ -95,38 +95,40 @@ if (isset($_GET["id"])) {
 
 <body>
     <div class="container">
-        <h1>
-            <?php echo $question['question_title']; ?>
-        </h1>
-        <p><strong>Posted by:</strong>
-            <?php echo $question['posted_by']; ?> on
-            <?php echo $question['question_date']; ?>
-        </p>
-        <p>
-            <?php echo $question['question_content']; ?>
-        </p>
-
-        <?php if (!empty($question['question_image'])): ?>
-            <img src="<?php echo $question['question_image']; ?>" alt="Question Image">
-        <?php endif; ?>
-        <?php if ($isOwnerOrAdmin): ?>
-            <div class="center">
-                <a href="edit_question.php?id=<?php echo $question_id; ?>">
-                    <button class="btn">
-                        Edit Question
-                    </button>
-                </a>
-            </div>
-        <?php endif; ?>
-        <?php if ($isOwnerOrAdmin): ?>
-            <form method="post" action=""
-                onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone.');">
-                <input type="hidden" name="action" value="delete">
+        <div class="card">
+            <h1>
+                <?php echo $question['question_title']; ?>
+            </h1>
+            <p><strong>Posted by:</strong>
+                <?php echo $question['posted_by']; ?> on
+                <?php echo $question['question_date']; ?>
+            </p>
+            <p>
+                <?php echo $question['question_content']; ?>
+            </p>
+    
+            <?php if (!empty($question['question_image'])): ?>
+                <img src="<?php echo $question['question_image']; ?>" alt="Question Image">
+            <?php endif; ?>
+            <?php if ($isOwner): ?>
                 <div class="center">
-                    <input class="btn" type="submit" value="Delete Question">
+                    <a href="edit_question.php?id=<?php echo $question_id; ?>">
+                        <button class="btn">
+                            Edit Question
+                        </button>
+                    </a>
                 </div>
-            </form>
-        <?php endif; ?>
+            <?php endif; ?>
+            <?php if ($isOwnerOrAdmin): ?>
+                <form method="post" action=""
+                    onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone.');">
+                    <input type="hidden" name="action" value="delete">
+                    <div class="center">
+                        <input class="btn" type="submit" value="Delete Question">
+                    </div>
+                </form>
+            <?php endif; ?>
+        </div>
 
         <h2>Replies</h2>
         <ul>

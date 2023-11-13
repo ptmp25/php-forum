@@ -73,8 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
+    <h1>New Question</h1>
     <div class="container">
-        <h1>New Question</h1>
         <form method="post" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" name="title" required><br>
@@ -82,9 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <textarea name="content" rows="4" required></textarea><br>
             <label for="image">Upload Image:</label>
             <input type="file" name="image" accept="image/*"><br>
-            <input type="submit" name="submit" value="Post Question">
+            <input type="submit" class="btn" name="submit" value="Post Question">
         </form>
-        <a href="topic.php?id=<?php echo htmlspecialchars($topic_id); ?>">Back to Topic</a>
     </div>
 </body>
 

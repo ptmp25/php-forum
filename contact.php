@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
                 <label for="message">Message:</label>
                 <textarea class="input-group" name="message" id="message" rows="4" required></textarea><br>
             </div>
-            <input type="submit" name="submit" value="Send Message">
+            <input type="submit" class="btn" name="submit" value="Send Message">
         </form>
 
         <!-- <a href="logout.php">Logout</a> -->

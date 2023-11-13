@@ -96,15 +96,15 @@
     <h1>Welcome to the Admin Panel, <?php echo $_SESSION['username']; ?></h1>
 
     <!-- Add User Promotion Form -->
-    <form method="post" action="">
+    <form method="post" action="" class="container">
         <label for="promote_username">Username to Promote:</label>
         <input type="text" name="promote_username" required>
-        <input type="submit" name="promote_user" value="Promote User to Admin">
+        <input type="submit" class="btn" style="width:fit-content;" name="promote_user" value="Promote User to Admin">
     </form>
 
     <!-- Messages Section -->
     <h2>Messages</h2>
-    <table>
+    <table class="container">
         <tr>
             <th>Name</th>
             <th>Email</th>
@@ -121,7 +121,7 @@
             <td>
                 <form method="post" action="">
                     <input type="hidden" name="delete_message_id" value="<?php echo $message['id']; ?>">
-                    <input type="submit" name="delete_message" value="Delete">
+                    <input type="submit" class="btn" name="delete_message" value="Delete">
                 </form>
             </td>
         </tr>

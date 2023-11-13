@@ -69,7 +69,7 @@
                 $select_stmt = $pdo->prepare("SELECT id, username, email, role FROM user");
                 $select_stmt->execute();
                 if ($select_stmt->rowCount() > 0) {
-                    echo '<table>';
+                    echo '<table class="container">';
                     echo '<tr>';
                     echo '<th>Username</th>';
                     echo '<th>Email</th>';
@@ -93,7 +93,7 @@
                             echo '<td>';
                             echo '<form method="post" action="">';
                             echo '<input type="hidden" name="delete_user_id" value="' . $row['id'] . '">';
-                            echo '<input type="submit" name="delete_user" value="Delete">';
+                            echo '<input type="submit" class="btn" name="delete_user" value="Delete">';
                             echo '</form>';
                             echo '</td>';
                         }

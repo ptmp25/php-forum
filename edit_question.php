@@ -50,23 +50,30 @@ if (isset($_GET["id"])) {
 <!-- The HTML form for editing the question -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Edit Question</title>
     <?php require("header.php"); ?>
 </head>
+
 <body>
+    <h1>Edit Question</h1>
     <div class="container">
-        <h1>Edit Question</h1>
 
         <form method="post" action="">
-            <label for="question_title">Title:</label>
-            <input type="text" id="question_title" name="question_title" value="<?php echo $question['title']; ?>" required>
-
-            <label for="question_content">Content:</label>
-            <textarea id="question_content" name="question_content" rows="4" required><?php echo $question['content']; ?></textarea>
-
-            <input type="submit" value="Update Question">
+            <div class="input-group">
+                <label for="question_title">Title:</label>
+                <input type="text" id="question_title" name="question_title" value="<?php echo $question['title']; ?>"
+                    required>
+            </div>
+            <div class="input-group">
+                <label for="question_content">Content:</label>
+                <textarea id="question_content" name="question_content" rows="4"
+                    required><?php echo $question['content']; ?></textarea>
+            </div>
+            <input type="submit" class="btn" value="Update Question">
         </form>
     </div>
 </body>
+
 </html>

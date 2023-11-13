@@ -102,18 +102,26 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
                     <?php echo $emailSuccess; ?>
                 </div>
             <?php endif; ?>
-            <form method="post" action="">
-                <label for="username">Username: <?php echo $user['username']; ?></label>
-                <label for="email">Email:</label>
-                <input type="email" name="newEmail" value="<?php echo $user['email']; ?>"><br>
-                <div class="submit-button">
-                    <input type="submit" name="updateEmail" value="Update Email">
-                </div>
-            </form>
+            <div class="card profile">
+                <form method="post" action="">
+                    <div class="input-group">
+                        <label for="username">Username:
+                            <strong><?php echo $user['username']; ?> </strong>
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="newEmail" value="<?php echo $user['email']; ?>"><br>
+                    </div>
+                    <div class="submit-button">
+                        <input class="btn" type="submit" name="updateEmail" value="Update Email">
+                    </div>
+                </form>
+            </div>
         </div>
 
         <h2>Change Password</h2>
-        <div class="form-section">
+        <div class="form-section card profile">
             <?php if ($passwordSuccess): ?>
                 <div class="success-message">
                     <?php echo $passwordSuccess; ?>
@@ -134,13 +142,13 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
                     <input type="password" name="confirmPassword"><br>
                 </div>
                 <div class="submit-button">
-                    <input type="submit" name="updatePassword" value="Update Password" style="width:150px">
+                    <input type="submit" class="btn" name="updatePassword" value="Update Password" style="width:150px">
                 </div>
             </form>
         </div>
 
         <h2>Change Profile Picture</h2>
-        <div class="form-section">
+        <div class="form-section container">
             <?php if ($profilePicSuccess): ?>
                 <div class="success-message">
                     <?php echo $profilePicSuccess; ?>
@@ -150,7 +158,7 @@ $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
             <form method="post" action="" enctype="multipart/form-data">
                 <input type="file" name="profilePic" accept="image/*">
                 <div class="submit-button">
-                    <input type="submit" name="uploadProfilePic" value="Upload">
+                    <input type="submit" class="btn" name="uploadProfilePic" value="Upload">
                 </div>
             </form>
         </div>
