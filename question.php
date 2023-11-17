@@ -68,15 +68,39 @@ if (isset($_GET["id"])) {
         }
     }
 
-    // Fetch the replies related to the question
+    // Set the current page number
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    // Set the number of results per page
+    $results_per_page = 5;
+
+    // Calculate the starting index for the current page
+    $starting_index = ($page - 1) * $results_per_page;
+
+    // Fetch the replies related to the question for the current page
     $replies_query = "SELECT r.id AS reply_id, r.reply_content AS reply_content, r.timestamp AS reply_date, u.username AS replied_by, r.user_id
                     FROM replies AS r
                     JOIN user AS u ON r.user_id = u.id
-                    WHERE r.question_id = :question_id";
+                    WHERE r.question_id = :question_id
+                    ORDER BY r.timestamp DESC
+                    LIMIT :starting_index, :results_per_page";
     $stmt = $pdo->prepare($replies_query);
     $stmt->bindParam(':question_id', $question_id);
+    $stmt->bindParam(':starting_index', $starting_index, PDO::PARAM_INT);
+    $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
     $stmt->execute();
     $replies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Count the total number of replies for the question
+    $count_query = "SELECT COUNT(*) AS count FROM replies WHERE question_id = :question_id";
+    $stmt = $pdo->prepare($count_query);
+    $stmt->bindParam(':question_id', $question_id);
+    $stmt->execute();
+    $count_result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $total_results = $count_result['count'];
+
+    // Calculate the total number of pages
+    $total_pages = ceil($total_results / $results_per_page);
 
     $topic_id = $question['topic_id']; // Get the topic_id from the question details
 } else {
@@ -106,7 +130,7 @@ if (isset($_GET["id"])) {
             <p>
                 <?php echo $question['question_content']; ?>
             </p>
-    
+
             <?php if (!empty($question['question_image'])): ?>
                 <img src="<?php echo $question['question_image']; ?>" alt="Question Image">
             <?php endif; ?>
@@ -157,6 +181,34 @@ if (isset($_GET["id"])) {
                 </li>
             <?php endforeach; ?>
         </ul>
+
+        <?php if ($total_pages > 1): ?>
+            <ul class="pagination">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a href="question.php?id=<?php echo $question_id; ?>&page=<?php echo $page - 1; ?>">Previous</a>
+                    </li>
+                <?php endif; ?>
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <?php if ($i == $page): ?>
+                        <li class="page-item">
+                            <span class="current-page">
+                                <?php echo $i; ?>
+                            </span>
+                        </li>
+                    <?php else: ?>                        <li class="page-item">
+                        <a href="question.php?id=<?php echo $question_id; ?>&page=<?php echo $i; ?>">
+                            <?php echo $i; ?>
+                        </a>                        </li>
+                    <?php endif; ?>
+                <?php endfor; ?>
+                <?php if ($page < $total_pages): ?>
+                    <li class="page-item">
+                        <a href="question.php?id=<?php echo $question_id; ?>&page=<?php echo $page + 1; ?>">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        <?php endif; ?>
 
         <h2>Post a Reply</h2>
         <form method="post" action="post_reply.php">

@@ -25,6 +25,11 @@ if (isset($_GET["id"])) {
             exit();
         }
 
+        // Set up pagination
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $questions_per_page = 5;
+        $offset = ($page - 1) * $questions_per_page;
+
         // Fetch questions related to the selected topic along with the last reply information
         $questions_query = "
             SELECT
@@ -56,11 +61,23 @@ if (isset($_GET["id"])) {
                 q.topic_id = :topic_id
             ORDER BY
                 q.id DESC
+            LIMIT
+                :offset, :questions_per_page
         ";
         $stmt = $pdo->prepare($questions_query);
         $stmt->bindParam(':topic_id', $topic_id);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindParam(':questions_per_page', $questions_per_page, PDO::PARAM_INT);
         $stmt->execute();
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Count the total number of questions for this topic
+        $count_query = "SELECT COUNT(*) FROM questions WHERE topic_id = :topic_id";
+        $stmt = $pdo->prepare($count_query);
+        $stmt->bindParam(':topic_id', $topic_id);
+        $stmt->execute();
+        $total_questions = $stmt->fetchColumn();
+        $total_pages = ceil($total_questions / $questions_per_page);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         exit();
@@ -131,7 +148,7 @@ if (isset($_POST["submit"])) {
         <ul>
             <?php foreach ($questions as $question): ?>
                 <a href="question.php?id=<?php echo $question['id']; ?>">
-                <div class="card">
+                    <div class="card">
                         <li>
                             <div class="name">
                                 <?php echo $question['title']; ?>
@@ -150,6 +167,39 @@ if (isset($_POST["submit"])) {
                 </a>
             <?php endforeach; ?>
         </ul>
+
+        <!-- Add pagination links -->
+        <?php if ($total_pages > 1): ?>
+            <ul class="pagination">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a href="topic.php?id=<?php echo $topic_id; ?>&page=<?php echo $page - 1; ?>">Previous</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <?php if ($i == $page): ?>
+                        <li class="page-item">
+                            <span class="current-page">
+                                <?php echo $i; ?>
+                            </span>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item">
+                            <a href="topic.php?id=<?php echo $topic_id; ?>&page=<?php echo $i; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+                <?php if ($page < $total_pages): ?>
+                    <li class="page-item">
+                        <a href="topic.php?id=<?php echo $topic_id; ?>&page=<?php echo $page + 1; ?>">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        <?php endif; ?>
     </div>
 </body>
 
