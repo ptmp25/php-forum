@@ -9,7 +9,7 @@
 <body>
     <header class="header">
         <nav>
-            <a href="homepage.php">Home Page</a>
+            <a href="index.php">Home Page</a>
             <a href="account.php">My Account</a>
             <a href="member.php">Members</a>
             <a href="contact.php">Contact Us</a>

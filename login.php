@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] === 'admin') {
         header('Location: admin_panel.php'); // Redirect admin to admin panel
     } else {
-        header('Location: homepage.php'); // Redirect non-admin to homepage
+        header('Location: index.php'); // Redirect non-admin to homepage
     }
     exit();
 }
@@ -38,7 +38,7 @@ if (isset($_POST["login"])) {
                     if ($user['role'] === 'admin') {
                         header('Location: admin_panel.php'); // Redirect to the admin panel after successful login
                     } else {
-                        header('Location: homepage.php'); // Redirect to homepage for non-admin users
+                        header('Location: index.php'); // Redirect to homepage for non-admin users
                     }
                     exit();
                 } else {

@@ -9,7 +9,7 @@ if (!isset($_SESSION["username"])) {
 
 // Check if the user is an admin
 if (isset($_SESSION['role']) && $_SESSION['role'] !== 'admin') {
-    header("Location: homepage.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -44,7 +44,7 @@ if (isset($_GET["id"])) {
         $delete_topic_stmt->bindParam(':topic_id', $topic_id);
         $delete_topic_stmt->execute();
 
-        header("Location: homepage.php");
+        header("Location: index.php");
         exit();
     } catch (PDOException $e) {
         echo "Error deleting the topic: " . $e->getMessage();

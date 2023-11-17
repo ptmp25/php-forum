@@ -24,7 +24,7 @@ if (isset($_POST["submit"]) && $is_admin) { // Only admins can create topics
         $stmt->bindParam(':content', $content);
 
         if ($stmt->execute()) {
-            header("Location: homepage.php");
+            header("Location: index.php");
             exit();
         } else {
             echo "Error creating the module.";

@@ -82,6 +82,6 @@ if (isset($_POST["submit_reply"])) {
         <input type="submit" name="submit_reply" value="Post Reply">
     </form>
 
-    <a href="homepage.php">Back to Topics</a>
+    <a href="index.php">Back to Topics</a>
 </body>
 </html>
