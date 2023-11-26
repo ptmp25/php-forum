@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
 
     if ($recipient) {
         // Insert the message into the messages table
-        $insert_message_query = "INSERT INTO messages (user_id, role, name, email, message, recipient_admin_id) 
+        $insert_message_query = "INSERT INTO messages (user_id, role, name, email, message, admin_id) 
                                  VALUES (:user_id, :role, :name, :email, :message, :recipient_id)";
         $stmt = $pdo->prepare($insert_message_query);
         $stmt->bindParam(':user_id', $user_id);

@@ -72,7 +72,11 @@
             $recipient_id = $_SESSION['user_id']; // Get the current admin's user ID
 
             // Select messages sent to the current admin only, join with user table to get sender's email
-            $messages_query = "SELECT messages.*, user.email as sender_email, messages.created_at as message_created_at FROM messages JOIN user ON messages.user_id = user.id WHERE recipient_admin_id = :recipient_id";
+            $messages_query = "SELECT messages.*, user.email as sender_email, messages.created_at as message_created_at 
+            FROM messages 
+            JOIN user 
+            ON messages.user_id = user.id 
+            WHERE admin_id = :recipient_id";
             $stmt = $pdo->prepare($messages_query);
             $stmt->bindParam(':recipient_id', $recipient_id);
             $stmt->execute();
